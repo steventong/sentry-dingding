@@ -62,8 +62,9 @@ class DingDingPlugin(NotificationPlugin):
                 )
             }
         }
-        requests.post(
-            url=send_url,
-            headers={"Content-Type": "application/json"},
-            data=json.dumps(data).encode("utf-8")
-        )
+        if event.group.status != "ignored" and event.get_environment() == "Production":
+            requests.post(
+                url=send_url,
+                headers={"Content-Type": "application/json"},
+                data=json.dumps(data).encode("utf-8")
+            )
