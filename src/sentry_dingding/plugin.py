@@ -6,6 +6,8 @@ import requests
 from sentry.plugins.bases.notify import NotificationPlugin
 
 import sentry_dingding
+import logging
+
 from .forms import DingDingOptionsForm
 
 DingTalk_API = "https://oapi.dingtalk.com/robot/send?access_token={token}"
@@ -16,13 +18,13 @@ class DingDingPlugin(NotificationPlugin):
     Sentry plugin to send error counts to DingDing.
     """
     author = 'ansheng'
-    author_url = 'https://github.com/anshengme/sentry-dingding'
+    author_url = 'https://github.com/soooban/sentry-dingding'
     version = sentry_dingding.VERSION
     description = 'Send error counts to DingDing.'
     resource_links = [
-        ('Source', 'https://github.com/anshengme/sentry-dingding'),
-        ('Bug Tracker', 'https://github.com/anshengme/sentry-dingding/issues'),
-        ('README', 'https://github.com/anshengme/sentry-dingding/blob/master/README.md'),
+        ('Source', 'https://github.com/soooban/sentry-dingding'),
+        ('Bug Tracker', 'https://github.com/soooban/sentry-dingding/issues'),
+        ('README', 'https://github.com/soooban/sentry-dingding/blob/master/README.md'),
     ]
 
     slug = 'DingDing'
@@ -62,6 +64,10 @@ class DingDingPlugin(NotificationPlugin):
                 )
             }
         }
+        logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        logger = logging.getLogger(__name__)
+        logger.info(event)
+
         if event.group.status != "ignored" and event.get_environment() == "Production":
             requests.post(
                 url=send_url,

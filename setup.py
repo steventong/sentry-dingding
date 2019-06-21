@@ -6,10 +6,10 @@ with open("README.md", "r") as fh:
 
 setup(
     name="sentry-dingding",
-    version='0.0.3',
+    version='0.0.4',
     author='ansheng',
-    author_email='ianshengme@gmail.com',
-    url='https://github.com/anshengme/sentry-dingding',
+    author_email='gyzhou@creams.io',
+    url='https://github.com/soooban/sentry-dingding',
     description='A Sentry extension which send errors stats to DingDing',
     long_description=long_description,
     long_description_content_type="text/markdown",
