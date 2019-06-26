@@ -64,7 +64,7 @@ class DingDingPlugin(NotificationPlugin):
             }
         }
         print("group.status = {status}, env = {env}".format(status = event.group.status, env = event.get_environment()))
-        print("event = {event}".format(status = event))
+        print("event = {event}".format(event = event))
         if event.group.status != "ignored":
             requests.post(
                 url=send_url,
