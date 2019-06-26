@@ -6,6 +6,8 @@ import requests
 from sentry.plugins.bases.notify import NotificationPlugin
 
 import sentry_dingding
+import logging
+import sys
 
 from .forms import DingDingOptionsForm
 
@@ -63,9 +65,19 @@ class DingDingPlugin(NotificationPlugin):
                 )
             }
         }
-        print("group.status = {status}, env = {env}".format(status = group.status, env = event.get_environment()))
-        print("event = {event}".format(event = event))
-        if group.status != "ignored" and event.get_environment() == "Production":
+
+
+        logger = logging.getLogger("endlesscode")
+        formatter = logging.Formatter('%(name)-12s %(asctime)s %(levelname)-8s %(message)s', '%a, %d %b %Y %H:%M:%S',)
+        file_handler = logging.FileHandler("/tmp/test.log")
+        file_handler.setFormatter(formatter)
+        stream_handler = logging.StreamHandler(sys.stderr)
+        logger.addHandler(file_handler)
+        logger.addHandler(stream_handler)
+        logger.info("group = {group}".format(group = group.status))
+        logger.error("event = {event}".format(event = event))
+
+        if group.is_ignored() != True and event.get_environment().name == "production":
             requests.post(
                 url=send_url,
                 headers={"Content-Type": "application/json"},
