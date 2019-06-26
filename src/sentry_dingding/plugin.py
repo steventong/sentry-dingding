@@ -65,9 +65,9 @@ class DingDingPlugin(NotificationPlugin):
         }
         print("group.status = {status}, env = {env}".format(status = event.group.status, env = event.get_environment()))
         print("event = {event}".format(status = event))
-        # if event.group.status != "ignored" and event.get_environment() == "Production":
-        requests.post(
-            url=send_url,
-            headers={"Content-Type": "application/json"},
-            data=json.dumps(data).encode("utf-8")
-        )
+        if event.group.status != "ignored":
+            requests.post(
+                url=send_url,
+                headers={"Content-Type": "application/json"},
+                data=json.dumps(data).encode("utf-8")
+            )
