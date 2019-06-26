@@ -6,7 +6,6 @@ import requests
 from sentry.plugins.bases.notify import NotificationPlugin
 
 import sentry_dingding
-import logging
 
 from .forms import DingDingOptionsForm
 
@@ -64,13 +63,11 @@ class DingDingPlugin(NotificationPlugin):
                 )
             }
         }
-        logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        logger = logging.getLogger(__name__)
-        logger.info(event)
-
-        if event.group.status != "ignored" and event.get_environment() == "Production":
-            requests.post(
-                url=send_url,
-                headers={"Content-Type": "application/json"},
-                data=json.dumps(data).encode("utf-8")
-            )
+        print("group.status = {status}, env = {env}".format(status = event.group.status, env = event.get_environment()))
+        print("event = {event}".format(status = event))
+        # if event.group.status != "ignored" and event.get_environment() == "Production":
+        requests.post(
+            url=send_url,
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(data).encode("utf-8")
+        )
